@@ -10,12 +10,15 @@ find_package(ros2_unitree_legged_msgs REQUIRED)
 
 
 message("-- CMAKE_SYSTEM_PROCESSOR: ${CMAKE_SYSTEM_PROCESSOR}")
+message("-- CMAKE_SOURCE_DIR: ${CMAKE_SOURCE_DIR}")
 if("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "x86_64.*")
   set(ARCH amd64)
 else()
   set(ARCH arm64)
 endif()
-set(EXTRA_LIBS -pthread libunitree_legged_sdk_${ARCH}.so lcm)
+message("-- Architecture Detected: ${ARCH}")
+set(EXTRA_LIBS -pthread ${CMAKE_SOURCE_DIR}/unitree_legged_sdk-master/lib/libunitree_legged_sdk_${ARCH}.so lcm)
+message("-- EXTRA_LIBS: ${EXTRA_LIBS}")
 
 
 set(CMAKE_CXX_FLAGS "-O3")
@@ -47,9 +50,12 @@ install(TARGETS
     ros2_position_example
     DESTINATION lib/${PROJECT_NAME}
 )
+install(FILES
+	${CMAKE_SOURCE_DIR}/unitree_legged_sdk-master/lib/libunitree_legged_sdk_${ARCH}.so
+     DESTINATION lib}
+     )
 
 ament_package()
-
 
 
 
