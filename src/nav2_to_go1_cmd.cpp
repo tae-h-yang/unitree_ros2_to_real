@@ -11,8 +11,8 @@ class Nav2ToGo1CmdNode : public rclcpp::Node {
 public:
     Nav2ToGo1CmdNode() : Node("nav2_to_go1_cmd") {
         subscription_ = this->create_subscription<geometry_msgs::msg::Twist>(
-            "cmd_vel", 10, std::bind(&Nav2ToGo1CmdNode::cmdVelCallback, this, std::placeholders::_1));
-        publisher_ = this->create_publisher<ros2_unitree_legged_msgs::msg::HighCmd>("high_cmd", 10);
+            "cmd_vel", 20, std::bind(&Nav2ToGo1CmdNode::cmdVelCallback, this, std::placeholders::_1));
+        publisher_ = this->create_publisher<ros2_unitree_legged_msgs::msg::HighCmd>("high_cmd", 20);
     }
 
 private:
@@ -27,11 +27,21 @@ private:
 
         // Set other fields based on cmd_vel data or default values
         high_cmd_msg->mode = 2;
-        high_cmd_msg->gait_type = 2;
+        high_cmd_msg->gait_type = 1;
         high_cmd_msg->speed_level = 0; // Example value for speed level
         //high_cmd_msg->foot_raise_height = 0.0; // Example value for foot raise height
         //high_cmd_msg->body_height = 0.0; // Example value for body height
-        high_cmd_msg->euler = {0.0, 0.0, 0.0}; // Example euler angles
+        //high_cmd_msg->euler = {0.0, 0.0, 0.0}; // Example euler angles
+
+        if (msg->linear.x > 0.0 && msg->linear.x < 0.2) {
+            msg->linear.x = 0.2;
+        }
+        if (msg->linear.y > 0.0 && msg->linear.y < 0.2) {
+            msg->linear.y = 0.2;
+        }
+        if (msg->angular.z > 0.0 && msg->angular.z < 0.2) {
+            msg->angular.z = 0.2;
+        }
         high_cmd_msg->velocity = {msg->linear.x, msg->linear.y}; // Example velocity values
         high_cmd_msg->yaw_speed = msg->angular.z; // Example yaw speed
 
