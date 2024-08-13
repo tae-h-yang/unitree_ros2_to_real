@@ -1,0 +1,3 @@
+[submodule "unitree_legged_sdk-master"]
+	path = unitree_legged_sdk-master
+	url = https://github.com/leonardjmihs/unitree_legged_sdk
