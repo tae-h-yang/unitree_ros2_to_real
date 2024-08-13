@@ -33,6 +33,7 @@ private:
         //high_cmd_msg->body_height = 0.0; // Example value for body height
         //high_cmd_msg->euler = {0.0, 0.0, 0.0}; // Example euler angles
 
+        /*
         if (msg->linear.x > 0.0 && msg->linear.x < 0.2) {
             msg->linear.x = 0.2;
         }
@@ -42,6 +43,7 @@ private:
         if (msg->angular.z > 0.0 && msg->angular.z < 0.2) {
             msg->angular.z = 0.2;
         }
+        */
         high_cmd_msg->velocity = {msg->linear.x, msg->linear.y}; // Example velocity values
         high_cmd_msg->yaw_speed = msg->angular.z; // Example yaw speed
 
